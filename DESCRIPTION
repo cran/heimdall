@@ -1,6 +1,6 @@
 Package: heimdall
 Title: Drift Adaptable Models
-Version: 1.0.3
+Version: 1.0.707
 Authors@R: 
   c(
         person(given = "Lucas", family = "Tavares", role = c("aut"), email = "lucas.giusti@eic.cefet-rj.br"),
@@ -17,10 +17,15 @@ URL: https://github.com/cefet-rj-dal/heimdall,
         https://cefet-rj-dal.github.io/heimdall/
 Encoding: UTF-8
 RoxygenNote: 7.3.1
-Imports: stats, daltoolbox, ggplot2
-Depends: caret, R (>= 2.10)
+Imports: stats, daltoolbox, ggplot2, reticulate
+Config/reticulate: list( packages = list( list(package = "scipy"),
+        list(package = "torch"), list(package = "pandas"), list(package
+        = "numpy"), list(package = "matplotlib"), list(package =
+        "scikit-learn"), list(package = "functools"), list(package =
+        "operator"), list(package = "sys") ) )
+Depends: caret, R (>= 3.5)
 NeedsCompilation: no
-Packaged: 2024-05-26 22:02:05 UTC; gpca
+Packaged: 2024-06-21 23:56:01 UTC; gpca
 Author: Lucas Tavares [aut],
   Leonardo Carvalho [aut],
   Diego Carvalho [aut],
@@ -32,4 +37,4 @@ Author: Lucas Tavares [aut],
     [cph]
 Maintainer: Eduardo Ogasawara <eogasawara@ieee.org>
 Repository: CRAN
-Date/Publication: 2024-05-27 17:20:02 UTC
+Date/Publication: 2024-06-22 04:20:02 UTC
