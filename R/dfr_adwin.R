@@ -16,10 +16,10 @@ dfr_adwin <- function(target_feat, delta=0.002) {
   state <- list()
   
   state$delta <- delta
-  adwin <- reticulate::source_python(system.file("python", "adwin.py", package="heimdall"))
-  state$adwin <- ADWIN(
-    delta=delta
-    )
+  
+  reticulate::source_python(system.file("python", "adwin.py", package="heimdall"))
+  
+  state$adwin <- ADWIN(delta=delta)
 
   obj$drifted <- FALSE
   obj$state <- state
@@ -38,10 +38,10 @@ update_state.dfr_adwin <- function(obj, value){
   has_drift <- state$adwin$detected_change()
   if (has_drift){
     obj$drifted <- has_drift
-    return(list(obj=obj, pred=obj$drifted))
+    return(list(obj=obj, drift=obj$drifted))
   }
   else{
-    return(list(obj=obj, pred=FALSE))
+    return(list(obj=obj, drift=FALSE))
   }
 }
 

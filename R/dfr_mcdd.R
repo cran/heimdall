@@ -9,30 +9,27 @@
 #'library(daltoolbox)
 #'library(heimdall)
 #'
-#'# This example assumes a model residual where 1 is an error and 0 is a correct prediction.
+#'# This example uses a dist-based drift detector with a synthetic dataset.
 #'
 #'data(st_drift_examples)
 #'data <- st_drift_examples$univariate
 #'data$event <- NULL
-#'data$prediction <- st_drift_examples$univariate$serie > 4
-#'
 #'
 #'model <- dfr_mcdd(target_feat='depart_visibility')
 #'
-#'detection <- c()
-#'output <- list(obj=model, pred=FALSE)
+#'detection <- NULL
+#'output <- list(obj=model, drift=FALSE)
 #'for (i in 1:length(data$serie)){
 #'  output <- update_state(output$obj, data$serie[i])
-#'  if (output$pred){
+#'  if (output$drift){
 #'    type <- 'drift'
 #'    output$obj <- reset_state(output$obj)
 #'  }else{
 #'    type <- ''
 #'  }
-#'  detection <- rbind(detection, list(idx=i, event=output$pred, type=type))
+#'  detection <- rbind(detection, data.frame(idx=i, event=output$drift, type=type))
 #'}
 #'
-#'detection <- as.data.frame(detection)
 #'detection[detection$type == 'drift',]
 #'@export
 dfr_mcdd <- function(target_feat, alpha=0.05, window_size=100) {
@@ -74,7 +71,7 @@ update_state.dfr_mcdd <- function(obj, value) {
       state$window <- rbind(state$window, value)
       
       obj$state <- state
-      return(list(obj=obj, pred=FALSE))
+      return(list(obj=obj, drift=FALSE))
     }
     
     # Normality Test
@@ -85,7 +82,7 @@ update_state.dfr_mcdd <- function(obj, value) {
           obj$drifted <- TRUE
           
           obj$state <- state
-          return(list(obj=obj, pred=TRUE))
+          return(list(obj=obj, drift=TRUE))
           }
         }
       }
@@ -94,13 +91,13 @@ update_state.dfr_mcdd <- function(obj, value) {
       obj$drifted <- TRUE
       
       obj$state <- state
-      return(list(obj=obj, pred=TRUE))
+      return(list(obj=obj, drift=TRUE))
       }
     }
   state$window <- rbind(state$window, value)
   
   obj$state <- state
-  return(list(obj=obj, pred=FALSE))
+  return(list(obj=obj, drift=FALSE))
 }
 
 #'@export

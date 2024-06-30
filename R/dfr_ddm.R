@@ -10,30 +10,29 @@
 #'library(daltoolbox)
 #'library(heimdall)
 #'
-#'# This example assumes a model residual where 1 is an error and 0 is a correct prediction.
+#'# This example uses an error-based drift detector with a synthetic a 
+#'# model residual where 1 is an error and 0 is a correct prediction.
 #'
 #'data(st_drift_examples)
 #'data <- st_drift_examples$univariate
 #'data$event <- NULL
 #'data$prediction <- st_drift_examples$univariate$serie > 4
 #'
-#'
 #'model <- dfr_ddm()
 #'
-#'detection <- c()
-#'output <- list(obj=model, pred=FALSE)
-#'for (i in 1:length(data$serie)){
-#'  output <- update_state(output$obj, data$serie[i])
-#'  if (output$pred){
+#'detection <- NULL
+#'output <- list(obj=model, drift=FALSE)
+#'for (i in 1:length(data$prediction)){
+#'  output <- update_state(output$obj, data$prediction[i])
+#'  if (output$drift){
 #'    type <- 'drift'
 #'    output$obj <- reset_state(output$obj)
 #'  }else{
 #'    type <- ''
 #'  }
-#'  detection <- rbind(detection, list(idx=i, event=output$pred, type=type))
+#'  detection <- rbind(detection, data.frame(idx=i, event=output$drift, type=type))
 #'}
 #'
-#'detection <- as.data.frame(detection)
 #'detection[detection$type == 'drift',]
 #'@export
 dfr_ddm <- function(min_instances=30, warning_level=2.0, out_control_level=3.0) {
@@ -78,7 +77,7 @@ update_state.dfr_ddm <- function(obj, value){
   
   if(state$sample_count < state$min_instances){
     obj$state <- state
-    return(list(obj=obj, pred=FALSE))
+    return(list(obj=obj, drift=FALSE))
   }
   
   if((state$miss_prob + state$miss_std) <= state$miss_prob_sd_min){
@@ -99,13 +98,13 @@ update_state.dfr_ddm <- function(obj, value){
     
     obj$drifted <- TRUE
     obj$state <- state
-    return(list(obj=obj, pred=TRUE))
+    return(list(obj=obj, drift=TRUE))
   }else if((state$miss_prob + state$miss_std) > (state$miss_prob_min + state$warning_level * state$miss_sd_min)){
     obj$state <- state
-    return(list(obj=obj, pred=FALSE))
+    return(list(obj=obj, drift=FALSE))
   }else{
     obj$state <- state
-    return(list(obj=obj, pred=FALSE))
+    return(list(obj=obj, drift=FALSE))
   }
 }
 
