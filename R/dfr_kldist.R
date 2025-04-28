@@ -34,7 +34,7 @@
 #'
 #'detection[detection$type == 'drift',]
 #'@export
-dfr_kldist <- function(target_feat, window_size=100, p_th=0.9, data=NULL) {
+dfr_kldist <- function(target_feat=NULL, window_size=100, p_th=0.05, data=NULL) {
     obj <- dist_based(target_feat=target_feat)
     
     state <- list()
@@ -78,6 +78,10 @@ update_state.dfr_kldist <- function(obj, value) {
     p <- p_window / sum(p_window)
     q <- q_window / sum(q_window)
     
+    p <- p[q!=0]
+    q <- q[q!=0]
+    
+    
     state$kl <- sum(p * log(p/q, base=2), na.rm=TRUE)
     
     if((state$kl >= state$p_th)){
@@ -108,10 +112,11 @@ update_state.dfr_kldist <- function(obj, value) {
 #'@export
 fit.dfr_kldist <- function(obj, data, ...){
   output <- update_state(obj, data[1])
-  for (i in 2:length(data)){
-    output <- update_state(output$obj, data[i])
+  if (length(data) > 1){
+    for (i in 2:length(data)){
+      output <- update_state(output$obj, data[i])
+    }
   }
-  
   return(output$obj)
 }
 

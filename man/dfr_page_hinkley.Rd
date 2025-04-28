@@ -5,7 +5,7 @@
 \title{Adapted Page Hinkley method}
 \usage{
 dfr_page_hinkley(
-  target_feat,
+  target_feat = NULL,
   min_instances = 30,
   delta = 0.005,
   threshold = 50,

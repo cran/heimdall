@@ -9,7 +9,7 @@
 #'#model <- dfr_adwin(target_feat='serie')
 #'@import reticulate
 #'@export
-dfr_adwin <- function(target_feat, delta=0.002) {
+dfr_adwin <- function(target_feat=NULL, delta=0.00002) {
   obj <- dist_based(target_feat=target_feat)
   
   # Attributes
@@ -48,8 +48,10 @@ update_state.dfr_adwin <- function(obj, value){
 #'@export
 fit.dfr_adwin <- function(obj, data, ...){
   output <- update_state(obj, data[1])
-  for (i in 2:length(data)){
-    output <- update_state(output$obj, data[i])
+  if (length(data) > 1){
+    for (i in 2:length(data)){
+      output <- update_state(output$obj, data[i])
+    }
   }
   
   return(output$obj)

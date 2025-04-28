@@ -35,7 +35,7 @@
 #'
 #'detection[detection$type == 'drift',]
 #'@export
-dfr_kswin <- function(target_feat, window_size=100, stat_size=30, alpha=0.005, data=NULL) {
+dfr_kswin <- function(target_feat=NULL, window_size=1500, stat_size=500, alpha=0.0000001, data=NULL) {
     obj <- dist_based(target_feat=target_feat)
     
     state <- list()
@@ -75,9 +75,9 @@ update_state.dfr_kswin <- function(obj, value) {
   
   if (currentLength >= state$window_size){
     state$window <- tail(state$window, -1)
-    rnd_window <- sample(x=state$window[1:(length(state$window)-state$stat_size)], size=state$stat_size)
-  
-    ks_res <- stats::ks.test(rnd_window, state$window[(length(state$window)-state$stat_size):length(state$window)], exact=TRUE)
+    rnd_window <- state$window[1:(nrow(state$window)-state$stat_size)]
+    
+    ks_res <- stats::ks.test(rnd_window, state$window[(nrow(state$window)-state$stat_size):nrow(state$window)], exact=TRUE)
     st <- unlist(ks_res[1])
     state$p_value <- unlist(ks_res[2])
     
@@ -109,8 +109,10 @@ update_state.dfr_kswin <- function(obj, value) {
 #'@export
 fit.dfr_kswin <- function(obj, data, ...){
   output <- update_state(obj, data[1])
-  for (i in 2:length(data)){
-    output <- update_state(output$obj, data[i])
+  if (length(data) > 1){
+    for (i in 2:length(data)){
+      output <- update_state(output$obj, data[i])
+    }
   }
   
   return(output$obj)
