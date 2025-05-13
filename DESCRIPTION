@@ -1,19 +1,21 @@
 Package: heimdall
 Title: Drift Adaptable Models
-Version: 1.0.737
+Version: 1.2.707
 Authors@R: 
   c(
     person(given = "Lucas", family = "Tavares", role = c("aut"), email = "lucas.giusti@eic.cefet-rj.br"),
     person(given = "Leonardo", family = "Carvalho", role = c("aut"), email = "lm.carvalho@petrobras.com.br"),
-    person(given = "Diego", family = "Carvalho", role = c("aut"), email = "d.carvalho@ieee.org"),
-    person(given = "Esther", family = "Pacitti", role = c("aut"), email = "Esther.Pacitti@lirmm.fr"),
-    person(given = "Fabio", family = "Porto", role = c("aut"), email = "fporto@lncc.br"),
-    person(given = "Eduardo", family = "Ogasawara", role = c("aut", "ths", "cre"), email = "eogasawara@ieee.org", comment = c(ORCID = "0000-0002-0466-0626")),
-    person(given = "Federal Center for Technological Education of Rio de Janeiro (CEFET/RJ)", role = "cph")
+    person(given = "Rodrigo", family = "Machado", role = c("aut"), email = "rodrigo.machado@eic.cefet-rj.br"),
+    person(given = "Diego", family = "Carvalho", role = c("ctb"), email = "d.carvalho@ieee.org"),
+    person(given = "Esther", family = "Pacitti", role = c("ctb"), email = "Esther.Pacitti@lirmm.fr"),
+    person(given = "Fabio", family = "Porto", role = c("ctb"), email = "fporto@lncc.br"),
+    person(given = "Eduardo", family = "Ogasawara", role = c("aut", "ths", "cre"), 
+               email = "eogasawara@ieee.org", comment = c(ORCID = "0000-0002-0466-0626")),
+    person(given = "CEFET/RJ", role = "cph")
   )
 Description: 
-  In streaming data analysis, it is crucial to detect significant shifts in the data distribution or the accuracy of predictive models over time, a phenomenon known as **concept drift**. The **heimdall** package aims to identify when concept drift occurs and provide methodologies for adapting models in non-stationary environments. 
-  It offers a range of state-of-the-art techniques for detecting concept drift and maintaining model performance. Additionally, **heimdall** provides tools for adapting models in response to these changes, ensuring continuous and accurate predictions in dynamic contexts.
+  In streaming data analysis, it is crucial to detect significant shifts in the data distribution or the accuracy of predictive models over time, a phenomenon known as concept drift. The package aims to identify when concept drift occurs and provide methodologies for adapting models in non-stationary environments. 
+  It offers a range of state-of-the-art techniques for detecting concept drift and maintaining model performance. Additionally, the package provides tools for adapting models in response to these changes, ensuring continuous and accurate predictions in dynamic contexts.
   Methods for concept drift detection are described in Tavares (2022) <doi:10.1007/s12530-021-09415-z>.
 License: MIT + file LICENSE
 URL: https://cefet-rj-dal.github.io/heimdall/,
@@ -26,16 +28,16 @@ Config/reticulate: list( packages = list( list(package = "scipy"),
         = "numpy"), list(package = "matplotlib"), list(package =
         "scikit-learn") ) )
 NeedsCompilation: no
-Packaged: 2025-04-28 14:09:53 UTC; gpca
+Packaged: 2025-05-13 05:24:37 UTC; gpca
 Author: Lucas Tavares [aut],
   Leonardo Carvalho [aut],
-  Diego Carvalho [aut],
-  Esther Pacitti [aut],
-  Fabio Porto [aut],
-  Eduardo Ogasawara [aut, ths, cre]
-    (<https://orcid.org/0000-0002-0466-0626>),
-  Federal Center for Technological Education of Rio de Janeiro (CEFET/RJ)
-    [cph]
+  Rodrigo Machado [aut],
+  Diego Carvalho [ctb],
+  Esther Pacitti [ctb],
+  Fabio Porto [ctb],
+  Eduardo Ogasawara [aut, ths, cre] (ORCID:
+    <https://orcid.org/0000-0002-0466-0626>),
+  CEFET/RJ [cph]
 Maintainer: Eduardo Ogasawara <eogasawara@ieee.org>
 Repository: CRAN
-Date/Publication: 2025-04-28 18:20:09 UTC
+Date/Publication: 2025-05-13 05:40:02 UTC
